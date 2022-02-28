@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { v4 as uuidv4 } from 'uuid'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 ReactDOM.render(
     <React.StrictMode>
