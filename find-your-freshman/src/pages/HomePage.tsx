@@ -18,13 +18,13 @@ const HomePage: React.FC = () => {
         }
     }, [])
 
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] =  React.useState<any>([])
 
     const getPosts = async (params: any) => {
         const db = getFirestore()
         const querySnapshot = await getDocs(collection(db, "posts"));
         querySnapshot.forEach((doc) => {
-            //setPosts([...posts, doc.data.postText]);
+            setPosts([...posts, doc.data]);
             console.log(doc.id, " => ", doc.data());
         });
 
