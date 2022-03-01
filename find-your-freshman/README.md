@@ -2,21 +2,18 @@
 
 <br />
 
-This is a blank README file that you can customize at your needs.\
-Describe your project, how it works and how to contribute to it.
-
-<br />
-
-# 🚀 Available Scripts
-
-In the project directory, you can run:
-
 # Instruction to run:
 1) git pull
 2) cd find-your-freshman
 3) npm install
 4) npm start
 5) open http://localhost:3000/
+
+<br />
+
+# 🚀 Available Scripts
+
+In the project directory, you can run:
 
 <br />
 
