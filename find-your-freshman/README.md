@@ -11,6 +11,13 @@ Describe your project, how it works and how to contribute to it.
 
 In the project directory, you can run:
 
+# Instruction to run:
+1) git pull
+2) cd find-your-freshman
+3) npm install
+4) npm start
+5) open http://localhost:3000/
+
 <br />
 
 ## ⚡️ start
