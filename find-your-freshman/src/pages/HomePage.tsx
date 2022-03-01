@@ -24,10 +24,10 @@ const HomePage: React.FC = () => {
         const db = getFirestore()
         const querySnapshot = await getDocs(collection(db, "posts"));
         querySnapshot.forEach((doc) => {
-            setPosts([...posts, doc.data]);
+            setPosts([...posts, doc.data]); // doesn't add anything to posts for some reason
             console.log(doc.id, " => ", doc.data());
         });
-
+        console.log(posts);
     }
 
 
@@ -44,7 +44,7 @@ const HomePage: React.FC = () => {
                     <Card.Text key={uuidv4()}>
                         This is post content
                     </Card.Text>
-                    
+                    {/* <Button key={uuidv4()} variant="primary" onClick={getPosts}>Posts to State</Button> */}
                 </Card.Body>
             </Card>
             <DateDisplay key={uuidv4()} />
