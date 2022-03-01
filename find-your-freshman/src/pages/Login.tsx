@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { GoogleAuthProvider, FacebookAuthProvider, TwitterAuthProvider, GithubAuthProvider, EmailAuthProvider, PhoneAuthProvider } from 'firebase/auth'
+import { GoogleAuthProvider, FacebookAuthProvider, EmailAuthProvider } from 'firebase/auth'
 
 import Container from 'react-bootstrap/Container'
-import { useLocation, useNavigate } from 'react-router-dom'
 import { FIREBASE } from '../resources/firebase-constants'
 import { getFirestore, collection, addDoc } from 'firebase/firestore'
-import { constants } from 'fs'
 
 const Login: React.FC = () => {
+    useEffect(() => {
+        FIREBASE.UI.start('#firebaseui-auth-container', uiConfig)
+    })
     const createNewUser = async (userData: any) => {
         const db = getFirestore()
         try {
@@ -36,14 +37,16 @@ const Login: React.FC = () => {
 
     const uiConfig = {
         callbacks: {
-            signInSuccessWithAuthResult: function (authResult: any, redirectUrl: any) {
+            signInSuccessWithAuthResult: function (authResult: any) {
+                // const navigate = useNavigate()
                 // User successfully signed in.
                 // Return type determines whether we continue the redirect automatically
                 // or whether we leave that to developer to handle.
-                console.log(authResult, redirectUrl)
                 if (authResult.additionalUserInfo.isNewUser) {
                     createNewUser(authResult)
                 }
+
+                sessionStorage.setItem('Auth Token', authResult.user.stsTokenManager.refreshToken)
 
                 localStorage.setItem('FYFUserId', authResult.user.uid)
 
@@ -51,10 +54,11 @@ const Login: React.FC = () => {
                 /*                 const location: any = useLocation()
                 const from = location.state?.from?.pathname || '/'
                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                const navigate = useNavigate()
                 if (from) {
                     navigate(from, { replace: true })
                 } */
+                // navigate('/home')
+
                 return true
             },
             uiShown: function () {
@@ -74,7 +78,6 @@ const Login: React.FC = () => {
             EmailAuthProvider.PROVIDER_ID
         ]
     }
-    FIREBASE.UI.start('#firebaseui-auth-container', uiConfig)
 
     return (
         <Container>
