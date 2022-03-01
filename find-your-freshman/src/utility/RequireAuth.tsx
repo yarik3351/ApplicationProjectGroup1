@@ -1,6 +1,6 @@
 import React, { useContext, createContext, useState } from 'react'
 import { FIREBASE } from '../resources/firebase-constants'
-import { useLocation, Navigate } from 'react-router-dom'
+import { useLocation, useNavigate, Navigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
