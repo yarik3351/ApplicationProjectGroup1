@@ -1,6 +1,5 @@
 @import './_variables'
 @import './_mixins'
-@import "~bootstrap/scss/bootstrap";
 
 *
   box-sizing: border-box
@@ -23,3 +22,18 @@ body
 
 code
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace
+
+#root,
+.container
+  height: 100% !important
+  overflow-x: hidden !important
+  display: flex
+  flex-direction: column
+  justify-content: center
+
+#loader
+  display: flex
+  justify-content: center
+
+
+@import "~bootstrap/scss/bootstrap";
