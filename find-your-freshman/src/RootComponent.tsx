@@ -1,10 +1,14 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+
 import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
+import Profile from './pages/Profile'
+import Login from './pages/Login'
+
 import { ROUTES } from './resources/routes-constants'
 import './styles/main.sass'
-import Login from './pages/Login'
+
 import { v4 as uuidv4 } from 'uuid'
 import RequireAuth from './utility/RequireAuth'
 import { Navbar, Container, Nav, Button } from 'react-bootstrap'
@@ -40,6 +44,9 @@ const RootComponent: React.FC = () => {
                         <Nav.Link href="/login" key={uuidv4()}>
                             Login
                         </Nav.Link>
+                        <Nav.Link href="/profile" key={uuidv4()}>
+                            Profile
+                        </Nav.Link>
                     </Nav>
                     <Navbar.Collapse className="justify-content-end" key={uuidv4()}>
                         {!!authToken && (
@@ -62,6 +69,7 @@ const RootComponent: React.FC = () => {
                     }
                 />
                 <Route key={uuidv4()} path={ROUTES.LOGIN_ROUTE} element={<Login />} />
+                <Route key={uuidv4()} path={ROUTES.PROFILE_ROUTE} element={<Profile />} />
             </Routes>
         </>
     )
