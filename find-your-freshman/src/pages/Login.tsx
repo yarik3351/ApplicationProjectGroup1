@@ -4,36 +4,11 @@ import { GoogleAuthProvider, FacebookAuthProvider, EmailAuthProvider } from 'fir
 
 import Container from 'react-bootstrap/Container'
 import { FIREBASE } from '../resources/firebase-constants'
-import { getFirestore, collection, addDoc } from 'firebase/firestore'
 
 const Login: React.FC = () => {
     useEffect(() => {
         FIREBASE.UI.start('#firebaseui-auth-container', uiConfig)
     })
-    const createNewUser = async (userData: any) => {
-        const db = getFirestore()
-        try {
-            const profile = userData?.additionalUserInfo?.profile
-
-            await addDoc(collection(db, 'users'), {
-                last_name: profile['family_name'],
-                first_name: profile['family_name'],
-                id: userData.user['uid'],
-                language: profile['locale'],
-                display_name: profile['name'],
-                profile_picture: profile['picture'],
-                verified_email: profile['verified_email'],
-                email: profile['email'],
-                phone: userData.user['phoneNumber'],
-                age: null,
-                city: null,
-                country: null,
-                country_from: null
-            })
-        } catch (e) {
-            console.error('Error creating user: ', e, userData)
-        }
-    }
 
     const uiConfig = {
         callbacks: {
@@ -42,11 +17,7 @@ const Login: React.FC = () => {
                 // User successfully signed in.
                 // Return type determines whether we continue the redirect automatically
                 // or whether we leave that to developer to handle.
-                if (authResult.additionalUserInfo.isNewUser) {
-                    createNewUser(authResult)
-                }
-
-                sessionStorage.setItem('Auth Token', authResult.user.stsTokenManager.refreshToken)
+                sessionStorage.setItem('AuthJwtToken', authResult.user.stsTokenManager.accessToken)
 
                 localStorage.setItem('FYFUserId', authResult.user.uid)
 

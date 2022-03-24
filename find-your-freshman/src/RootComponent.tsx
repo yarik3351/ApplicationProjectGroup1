@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
@@ -18,17 +18,20 @@ import { useNavigate } from 'react-router-dom'
 
 const RootComponent: React.FC = () => {
     const navigate = useNavigate()
-    const authToken = sessionStorage.getItem('Auth Token')
+    const authToken = sessionStorage.getItem('AuthJwtToken')
     const logout = () => {
         signOut(FIREBASE.AUTH)
             .then(() => {
                 localStorage.removeItem('FYFUserId')
-                sessionStorage.removeItem('Auth Token')
+                sessionStorage.removeItem('AuthJwtToken')
                 navigate('/login')
             })
             .catch((error) => {
                 console.error(error)
             })
+    }
+    const login = () => {
+        navigate('/login')
     }
     return (
         <>
@@ -41,9 +44,6 @@ const RootComponent: React.FC = () => {
                         <Nav.Link href="/" key={uuidv4()}>
                             Home
                         </Nav.Link>
-                        <Nav.Link href="/login" key={uuidv4()}>
-                            Login
-                        </Nav.Link>
                         <Nav.Link href="/profile" key={uuidv4()}>
                             Profile
                         </Nav.Link>
@@ -54,23 +54,22 @@ const RootComponent: React.FC = () => {
                                 Logout
                             </Button>
                         )}
+                        {!authToken && (
+                            <Button variant="outline-light" size="sm" key={uuidv4()} onClick={login}>
+                                Login
+                            </Button>
+                        )}
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <Routes key={uuidv4()}>
-                <Route key={uuidv4()} path="*" element={<NotFoundPage />} />
-                <Route
-                    key={uuidv4()}
-                    path={ROUTES.HOMEPAGE_ROUTE}
-                    element={
-                        <RequireAuth>
-                            <HomePage key={uuidv4()} />
-                        </RequireAuth>
-                    }
-                />
-                <Route key={uuidv4()} path={ROUTES.LOGIN_ROUTE} element={<Login />} />
-                <Route key={uuidv4()} path={ROUTES.PROFILE_ROUTE} element={<Profile />} />
-            </Routes>
+            <RequireAuth>
+                <Routes key={uuidv4()}>
+                    <Route key={uuidv4()} path="*" element={<NotFoundPage />} />
+                    <Route key={uuidv4()} path={ROUTES.HOMEPAGE_ROUTE} element={<HomePage key={uuidv4()} />} />
+                    <Route key={uuidv4()} path={ROUTES.LOGIN_ROUTE} element={<Login />} />
+                    <Route key={uuidv4()} path={ROUTES.PROFILE_ROUTE} element={<Profile />} />
+                </Routes>
+            </RequireAuth>
         </>
     )
 }
