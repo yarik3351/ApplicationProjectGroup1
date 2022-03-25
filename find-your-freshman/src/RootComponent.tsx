@@ -11,10 +11,11 @@ import './styles/main.sass'
 
 import { v4 as uuidv4 } from 'uuid'
 import RequireAuth from './utility/RequireAuth'
-import { Navbar, Container, Nav, Button } from 'react-bootstrap'
+import { Navbar, Container as BootContainer, Nav, Button } from 'react-bootstrap'
 import { signOut } from 'firebase/auth'
 import { FIREBASE } from './resources/firebase-constants'
 import { useNavigate } from 'react-router-dom'
+import Chats from './components/Chats'
 
 const RootComponent: React.FC = () => {
     const navigate = useNavigate()
@@ -33,10 +34,11 @@ const RootComponent: React.FC = () => {
     const login = () => {
         navigate('/login')
     }
+
     return (
         <>
             <Navbar bg="primary" variant="dark">
-                <Container key={uuidv4()}>
+                <BootContainer key={uuidv4()}>
                     <Navbar.Brand href="/" key={uuidv4()}>
                         FYF
                     </Navbar.Brand>
@@ -60,16 +62,23 @@ const RootComponent: React.FC = () => {
                             </Button>
                         )}
                     </Navbar.Collapse>
-                </Container>
+                </BootContainer>
             </Navbar>
-            <RequireAuth>
-                <Routes key={uuidv4()}>
-                    <Route key={uuidv4()} path="*" element={<NotFoundPage />} />
-                    <Route key={uuidv4()} path={ROUTES.HOMEPAGE_ROUTE} element={<HomePage key={uuidv4()} />} />
-                    <Route key={uuidv4()} path={ROUTES.LOGIN_ROUTE} element={<Login />} />
-                    <Route key={uuidv4()} path={ROUTES.PROFILE_ROUTE} element={<Profile />} />
-                </Routes>
-            </RequireAuth>
+
+            <BootContainer className="d-flex" key={uuidv4()}>
+                <Chats key={uuidv4()} />
+                <div key={uuidv4()} className="w-100">
+                    <RequireAuth key={uuidv4()}>
+                        <Routes key={uuidv4()}>
+                            <Route key={uuidv4()} path="*" element={<NotFoundPage />} />
+                            <Route key={uuidv4()} path={ROUTES.HOMEPAGE_ROUTE} element={<HomePage key={uuidv4()} />} />
+                            <Route key={uuidv4()} path={ROUTES.LOGIN_ROUTE} element={<Login />} />
+                            <Route key={uuidv4()} path={ROUTES.PROFILE_ROUTE} element={<Profile />} />
+                            <Route key={uuidv4()} path={ROUTES.CHAT} element={<Profile />} />
+                        </Routes>
+                    </RequireAuth>
+                </div>
+            </BootContainer>
         </>
     )
 }

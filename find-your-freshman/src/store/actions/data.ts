@@ -1,12 +1,12 @@
 import { ReduxAction } from '../../types/reducers'
 
 export enum DATA_ACTIONS {
-    SET_CONTENTS = 'dataActions/setContents'
+    SET_CURRENTUSER = 'dataActions/setCurrentUser'
 }
 
-export const setDataContents: ReduxAction<string[]> = (contents) => {
+export const setCurrentUser: ReduxAction<string[]> = (currentUser) => {
     return {
-        type: DATA_ACTIONS.SET_CONTENTS,
-        payload: contents
+        type: DATA_ACTIONS.SET_CURRENTUSER,
+        payload: currentUser
     }
 }

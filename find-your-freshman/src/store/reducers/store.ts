@@ -10,7 +10,6 @@ const persistConfig = {
     whitelist: ['data'], // elements that will be persisted
     blacklist: [] // elements that will not be persisted
 }
-
 const rootReducer = combineReducers({
     data
 })

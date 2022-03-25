@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { GoogleAuthProvider, FacebookAuthProvider, EmailAuthProvider } from 'firebase/auth'
-
+import { setCurrentUser } from '../store/actions/data'
 import Container from 'react-bootstrap/Container'
 import { FIREBASE } from '../resources/firebase-constants'
+import { useDispatch } from 'react-redux'
 
 const Login: React.FC = () => {
     useEffect(() => {
         FIREBASE.UI.start('#firebaseui-auth-container', uiConfig)
     })
+    const dispatch = useDispatch()
 
     const uiConfig = {
         callbacks: {
@@ -18,6 +20,7 @@ const Login: React.FC = () => {
                 // Return type determines whether we continue the redirect automatically
                 // or whether we leave that to developer to handle.
                 sessionStorage.setItem('AuthJwtToken', authResult.user.stsTokenManager.accessToken)
+                dispatch(setCurrentUser(authResult.user))
 
                 localStorage.setItem('FYFUserId', authResult.user.uid)
 

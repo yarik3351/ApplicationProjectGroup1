@@ -1,5 +1,5 @@
 export interface ReducerData {
-    contents: string[]
+    currentUser: Record<string, unknown>
 }
 
 export type ReduxActionData<T> = {

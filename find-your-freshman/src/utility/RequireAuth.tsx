@@ -1,8 +1,7 @@
 import React from 'react'
 import { useLocation, Navigate } from 'react-router-dom'
-import { getAuth, signOut, signInWithCustomToken, signInWithCredential } from 'firebase/auth'
-import { getApp } from 'firebase/app'
-import { FIREBASE } from '../resources/firebase-constants'
+import { signOut } from 'firebase/auth'
+import { getAuth } from 'firebase/auth'
 
 function RequireAuth({ children }: { children: JSX.Element }): JSX.Element {
     const auth = getAuth()
@@ -22,10 +21,11 @@ function RequireAuth({ children }: { children: JSX.Element }): JSX.Element {
         localStorage.removeItem('FYFUserId')
         sessionStorage.removeItem('AuthJwtToken')
         if (!location.pathname.includes('login') && !location.pathname.includes('register')) return <Navigate to="/login" state={{ from: location }} replace />
+    } else {
+        if (location.pathname.includes('login') || location.pathname.includes('register')) return <Navigate to="/" state={{ from: location }} replace />
     }
 
     auth.onAuthStateChanged((user: any) => {
-        // console.log(user)
         if (!user || !localStorage.getItem('FYFUserId')) {
             return <Navigate to="/login" state={{ from: location }} replace />
         } else if (user) {

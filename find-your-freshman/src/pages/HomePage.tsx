@@ -17,10 +17,10 @@ const HomePage: React.FC = () => {
     }
 
     return (
-        <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-            <h1 key={uuidv4()} style={{ fontSize: '4em' }}>
-                Hello world!
-            </h1>
+        <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column' }}>
+            <h3 key={uuidv4()} style={{ fontSize: '4em' }}>
+                My Feed
+            </h3>
             <Card key={uuidv4()} style={{ width: '18rem' }}>
                 <Card.Img key={uuidv4()} variant="top" src="" />
                 <Card.Body key={uuidv4()}>
