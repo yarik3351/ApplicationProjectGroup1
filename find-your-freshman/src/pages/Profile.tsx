@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Form, Button } from 'react-bootstrap';
 import { FIREBASE } from '../resources/firebase-constants'
 import { getFirestore, collection, addDoc, getDoc, doc, setDoc } from 'firebase/firestore'
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
 
 const Profile: React.FC = () => {
 
@@ -48,34 +48,43 @@ const Profile: React.FC = () => {
     }
     const auth = getAuth();
     const db = getFirestore();
-
+    
+    
     useEffect(() => {
-        const getData = async () => {
+        
+        onAuthStateChanged( auth, async (user) => {
+            if (user) {
+                const getData = async () => {
 
-            const docRef = doc(db, 'users', 'gHOBF3I1WcghCITiRRqr') // <- need to put currently logged user id here
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                console.log(docSnap.data());
-                const data = docSnap.data();
-                setFirstName(data.first_name);
-                setLastName(data.last_name);
-                setPhone(data.phone);
-                setAge(data.age);
-                setCity(data.city);
-                setCountry(data.country);
-                setCountryFrom(data.country_from);
-            } else {
-                console.log('data for user not found')
+                    const docRef = doc(db, 'users', auth!.currentUser!.uid) // <- need to put currently logged user id here
+                    const docSnap = await getDoc(docRef);
+        
+                    if (docSnap.exists()) {
+                        console.log(docSnap.data());
+                        const data = docSnap.data();
+                        setFirstName(data.first_name);
+                        setLastName(data.last_name);
+                        setPhone(data.phone);
+                        setAge(data.age);
+                        setCity(data.city);
+                        setCountry(data.country);
+                        setCountryFrom(data.country_from);
+                    } else {
+                        console.log('data for user not found')
+                    }
+                }
+                getData();
             }
-        }
-        getData();
+        })
+        
 
 
     }, [])
 
     const buttonTest = (e: any) => {
         e.preventDefault();
+
+        
         
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -83,6 +92,10 @@ const Profile: React.FC = () => {
                 // https://firebase.google.com/docs/reference/js/firebase.User
                 const uid = user.uid;
                 // ...
+                // Change display name
+                updateProfile(user, {
+                    displayName: firstName + ' ' + lastName
+                }).then(()=> { console.log('Updated!')})
                 // Update
                 await setDoc(doc(db, 'users', uid), {
                     first_name: firstName,
