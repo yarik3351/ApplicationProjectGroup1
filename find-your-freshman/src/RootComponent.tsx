@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
 import Profile from './pages/Profile'
 import Login from './pages/Login'
+import Chat from './pages/Chat'
 
 import { ROUTES } from './resources/routes-constants'
 import './styles/main.sass'
@@ -66,7 +67,8 @@ const RootComponent: React.FC = () => {
             </Navbar>
 
             <BootContainer className="d-flex" key={uuidv4()}>
-                <Chats key={uuidv4()} />
+                {!!authToken && <Chats key={uuidv4()} />}
+
                 <div key={uuidv4()} className="w-100">
                     <RequireAuth key={uuidv4()}>
                         <Routes key={uuidv4()}>
@@ -74,7 +76,7 @@ const RootComponent: React.FC = () => {
                             <Route key={uuidv4()} path={ROUTES.HOMEPAGE_ROUTE} element={<HomePage key={uuidv4()} />} />
                             <Route key={uuidv4()} path={ROUTES.LOGIN_ROUTE} element={<Login />} />
                             <Route key={uuidv4()} path={ROUTES.PROFILE_ROUTE} element={<Profile />} />
-                            <Route key={uuidv4()} path={ROUTES.CHAT} element={<Profile />} />
+                            <Route key={uuidv4()} path={ROUTES.CHAT} element={<Chat />} />
                         </Routes>
                     </RequireAuth>
                 </div>

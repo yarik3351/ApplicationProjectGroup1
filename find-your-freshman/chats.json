@@ -1,0 +1,12 @@
+{
+    "chats": [{
+        "members": [{
+            "uid": "ODoUS1EnhxbWZPQ8sMQgJHyqVno2",
+            "notification": 0
+        }],
+        "messages": [{
+            "uid": "ODoUS1EnhxbWZPQ8sMQgJHyqVno2",
+            "message_text": "Hello worlds"
+        }]
+    }]
+}

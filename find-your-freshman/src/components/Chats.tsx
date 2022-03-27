@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { createStyles, Navbar as MantineNavBar, Avatar, TextInput, Code, UnstyledButton, Badge, Text, Group, ActionIcon, Tooltip } from '@mantine/core'
@@ -8,6 +8,9 @@ import { collection, getDocs, getFirestore } from 'firebase/firestore'
 import { UserButton } from './UserButton'
 import { FIREBASE } from '../resources/firebase-constants'
 import { Nav } from 'react-bootstrap'
+
+import { doc, onSnapshot } from 'firebase/firestore'
+import { query, where } from 'firebase/firestore'
 
 const useStyles = createStyles((theme) => ({
     navbar: {
@@ -101,7 +104,7 @@ const useStyles = createStyles((theme) => ({
 }))
 
 const links = [
-    { photo: 'https://lh3.googleusercontent.com/a/AATXAJyEf0zXbXZL5xUN1b6Nf-rG5Uhy3NE5POhRs7WR=s96-c', label: 'Fred', notifications: 3 },
+    { photo: '', label: 'Fred', notifications: 3 },
     { photo: 'https://lh3.googleusercontent.com/a/AATXAJyEf0zXbXZL5xUN1b6Nf-rG5Uhy3NE5POhRs7WR=s96-c', label: 'Bob', notifications: 4 },
     { photo: 'https://lh3.googleusercontent.com/a/AATXAJyEf0zXbXZL5xUN1b6Nf-rG5Uhy3NE5POhRs7WR=s96-c', label: 'Jack', notifications: 1 }
 ]
@@ -112,6 +115,19 @@ const Chats: React.FC = () => {
             setUser(user)
         }
     })
+    useEffect(() => {
+        setChats(getChats())
+    }, [])
+
+    const getChats = async () => {
+        /* const db = getFirestore(FIREBASE.APP)
+        const ref = collection(db, 'chats')
+        const quer = query(ref, where('members', 'array-contains', { uid: 'test' }))
+        const querySnapshot = await getDocs(quer)
+        let chats = querySnapshot.map((doc) => {
+            return doc.data()
+        }) */
+    }
     const { classes } = useStyles()
     const [chats, setChats] = React.useState<any>([])
     const [user, setUser] = React.useState<any>({})
@@ -132,7 +148,7 @@ const Chats: React.FC = () => {
     ))
 
     return (
-        <MantineNavBar key={uuidv4()} height={700} width={{ sm: 300 }} p="md" className={classes.navbar}>
+        <MantineNavBar key={uuidv4()} width={{ sm: 300 }} p="md" className={classes.navbar}>
             <Nav.Link href="/profile" className="p-0" key={uuidv4()}>
                 <MantineNavBar.Section key={uuidv4()} className={classes.section}>
                     <UserButton

@@ -26,7 +26,8 @@ function RequireAuth({ children }: { children: JSX.Element }): JSX.Element {
     }
 
     auth.onAuthStateChanged((user: any) => {
-        if (!user || !localStorage.getItem('FYFUserId')) {
+        console.log(!user || !localStorage.getItem('FYFUserId'))
+        if ((!user && user === null) || !localStorage.getItem('FYFUserId')) {
             return <Navigate to="/login" state={{ from: location }} replace />
         } else if (user) {
             sessionStorage.setItem('AuthJwtToken', user.stsTokenManager.accessToken)
