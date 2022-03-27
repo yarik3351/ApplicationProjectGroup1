@@ -67,7 +67,7 @@ const RootComponent: React.FC = () => {
             </Navbar>
 
             <BootContainer className="d-flex" key={uuidv4()}>
-                {!!authToken && <Chats key={uuidv4()} />}
+                {!!authToken && <Chats key={1} />}
 
                 <div key={uuidv4()} className="w-100">
                     <RequireAuth key={uuidv4()}>

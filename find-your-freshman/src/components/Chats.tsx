@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { createStyles, Navbar as MantineNavBar, Avatar, TextInput, Code, UnstyledButton, Badge, Text, Group, ActionIcon, Tooltip } from '@mantine/core'
-import { Bulb, User, Checkbox, Search, Selector } from 'tabler-icons-react'
+import { createStyles, Navbar as MantineNavBar, Avatar, TextInput, UnstyledButton, Badge } from '@mantine/core'
+import { Search, Selector } from 'tabler-icons-react'
 
-import { collection, getDocs, getFirestore } from 'firebase/firestore'
+import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore'
 import { UserButton } from './UserButton'
 import { FIREBASE } from '../resources/firebase-constants'
 import { Nav } from 'react-bootstrap'
-
-import { doc, onSnapshot } from 'firebase/firestore'
-import { query, where } from 'firebase/firestore'
+import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
     navbar: {
@@ -40,6 +38,16 @@ const useStyles = createStyles((theme) => ({
         paddingBottom: theme.spacing.md
     },
 
+    link: {
+        textDecoration: 'none',
+        '&:hover': {
+            backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+            color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+            textDecoration: 'none',
+            cursor: 'pointer'
+        }
+    },
+
     mainLink: {
         display: 'flex',
         alignItems: 'center',
@@ -52,7 +60,9 @@ const useStyles = createStyles((theme) => ({
 
         '&:hover': {
             backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-            color: theme.colorScheme === 'dark' ? theme.white : theme.black
+            color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+            textDecoration: 'none',
+            cursor: 'pointer'
         }
     },
 
@@ -103,48 +113,72 @@ const useStyles = createStyles((theme) => ({
     }
 }))
 
-const links = [
-    { photo: '', label: 'Fred', notifications: 3 },
-    { photo: 'https://lh3.googleusercontent.com/a/AATXAJyEf0zXbXZL5xUN1b6Nf-rG5Uhy3NE5POhRs7WR=s96-c', label: 'Bob', notifications: 4 },
-    { photo: 'https://lh3.googleusercontent.com/a/AATXAJyEf0zXbXZL5xUN1b6Nf-rG5Uhy3NE5POhRs7WR=s96-c', label: 'Jack', notifications: 1 }
-]
-
 const Chats: React.FC = () => {
-    FIREBASE.AUTH.onAuthStateChanged((user) => {
-        if (user) {
-            setUser(user)
-        }
-    })
-    useEffect(() => {
-        setChats(getChats())
-    }, [])
-
-    const getChats = async () => {
-        /* const db = getFirestore(FIREBASE.APP)
-        const ref = collection(db, 'chats')
-        const quer = query(ref, where('members', 'array-contains', { uid: 'test' }))
-        const querySnapshot = await getDocs(quer)
-        let chats = querySnapshot.map((doc) => {
-            return doc.data()
-        }) */
-    }
     const { classes } = useStyles()
     const [chats, setChats] = React.useState<any>([])
     const [user, setUser] = React.useState<any>({})
 
-    const mainLinks = links.map((link) => (
-        <UnstyledButton key={link.label} className={classes.mainLink}>
-            <div className={classes.mainLinkInner} key={uuidv4()}>
-                <Avatar key={uuidv4()} size={20} className={classes.mainLinkIcon} src={link.photo} radius="xl" />
+    useEffect(() => {
+        const unsubscribe = FIREBASE.AUTH.onAuthStateChanged((user) => {
+            if (user) {
+                setUser(user)
+                return getChats(user)
+            }
+        })
+        return () => {
+            unsubscribe()
+        }
+    }, [])
 
-                <span key={uuidv4()}>{link.label}</span>
-            </div>
-            {link.notifications && (
-                <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
-                    {link.notifications}
-                </Badge>
-            )}
-        </UnstyledButton>
+    const getChats = (user: any) => {
+        const db = getFirestore(FIREBASE.APP)
+
+        const ref = collection(db, 'chats')
+        const q = query(ref, where('members', 'array-contains', { uid: user.uid }))
+        return onSnapshot(q, (querySnapshot: any) => {
+            const chats: Array<any> = []
+            querySnapshot.forEach((doc: any) => {
+                const data = doc.data()
+                const notification_count = data.notifications.find((element: any) => element.uid === user.uid)?.count
+                const chatObj = {
+                    id: doc.id,
+                    notification_count: notification_count === 0 ? null : notification_count,
+                    ...data
+                }
+                chats.push(chatObj)
+            })
+            setChats(chats)
+        })
+
+        /* const querySnapshot = await getDocs(q)
+        const chats: Array<any> = []
+        querySnapshot.forEach((doc) => {
+            const data = doc.data()
+            const notification_count = data.notifications.find((element: any) => element.uid === 'test')?.count
+            const chatObj = {
+                id: doc.id,
+                notification_count: notification_count === 0 ? null : notification_count,
+                ...data
+            }
+            chats.push(chatObj)
+        }) */
+    }
+
+    const ChatsRender = chats.map((chat: any) => (
+        <Link key={chat.id} to={`/chat/${chat.id}`} className={classes.link}>
+            <UnstyledButton key={chat.label} className={classes.mainLink}>
+                <div className={classes.mainLinkInner} key={uuidv4()}>
+                    <Avatar key={uuidv4()} size={20} className={classes.mainLinkIcon} src={chat.photo_url} radius="xl" />
+
+                    <span key={uuidv4()}>{chat.label}</span>
+                </div>
+                {chat.notification_count && (
+                    <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
+                        {chat.notification_count}
+                    </Badge>
+                )}
+            </UnstyledButton>
+        </Link>
     ))
 
     return (
@@ -174,7 +208,7 @@ const Chats: React.FC = () => {
 
             <MantineNavBar.Section key={uuidv4()} className={classes.section}>
                 <div key={uuidv4()} className={classes.mainLinks}>
-                    {mainLinks}
+                    {ChatsRender}
                 </div>
             </MantineNavBar.Section>
         </MantineNavBar>
