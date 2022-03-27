@@ -17,13 +17,15 @@ const Profile: React.FC = () => {
     //     country_from: ''
     // });
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [age, setAge] = useState('');
-    const [city, setCity] = useState('');
-    const [country, setCountry] = useState('');
-    const [countryFrom, setCountryFrom] = useState('');
+    const [firstName, setFirstName] = useState<any>('');
+    const [lastName, setLastName] = useState<any>('');
+    const [phone, setPhone] = useState<any>('');
+    const [age, setAge] = useState<any>('');
+    const [city, setCity] = useState<any>('');
+    const [country, setCountry] = useState<any>('');
+    const [countryFrom, setCountryFrom] = useState<any>('');
+    const [gender, setGender] = useState<any>('');
+    const [school, setSchool] = useState<any>('');
 
     const handleFirstNameChange = (e: any) => {
         setFirstName(e.target.value);
@@ -46,19 +48,26 @@ const Profile: React.FC = () => {
     const handleCountrFromChange = (e: any) => {
         setCountryFrom(e.target.value);
     }
+
+    const handleGenderChange = (e: any) => {
+        setGender(e.target.value);
+    }
+    const handleSchoolChange = (e: any) => {
+        setSchool(e.target.value);
+    }
     const auth = getAuth();
     const db = getFirestore();
-    
-    
+
+
     useEffect(() => {
-        
-        onAuthStateChanged( auth, async (user) => {
+
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const getData = async () => {
 
-                    const docRef = doc(db, 'users', auth!.currentUser!.uid) // <- need to put currently logged user id here
+                    const docRef = doc(db, 'profiles', auth!.currentUser!.uid)
                     const docSnap = await getDoc(docRef);
-        
+
                     if (docSnap.exists()) {
                         console.log(docSnap.data());
                         const data = docSnap.data();
@@ -69,14 +78,20 @@ const Profile: React.FC = () => {
                         setCity(data.city);
                         setCountry(data.country);
                         setCountryFrom(data.country_from);
+                        setGender(data.gender);
+                        setSchool(data.school);
                     } else {
                         console.log('data for user not found')
                     }
                 }
                 getData();
+                const fName = user.displayName?.split(' ')[0];
+                const lName = user.displayName?.split(' ')[1];
+                setFirstName(fName);
+                setLastName(lName);
             }
         })
-        
+
 
 
     }, [])
@@ -84,8 +99,8 @@ const Profile: React.FC = () => {
     const buttonTest = (e: any) => {
         e.preventDefault();
 
-        
-        
+
+
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 // User is signed in, see docs for a list of available properties
@@ -95,9 +110,9 @@ const Profile: React.FC = () => {
                 // Change display name
                 updateProfile(user, {
                     displayName: firstName + ' ' + lastName
-                }).then(()=> { console.log('Updated!')})
+                }).then(() => { console.log('Updated!') })
                 // Update
-                await setDoc(doc(db, 'users', uid), {
+                await setDoc(doc(db, 'profiles', uid), {
                     first_name: firstName,
                     last_name: lastName,
                     age: age,
@@ -105,6 +120,8 @@ const Profile: React.FC = () => {
                     city: city,
                     country: country,
                     country_from: countryFrom,
+                    gender: gender,
+                    school: school
                 }, { merge: true });
             } else {
                 // User is signed out
@@ -122,7 +139,9 @@ const Profile: React.FC = () => {
                     <Form.Label key={uuidv4()}>Last Name</Form.Label>
                     <Form.Control type="text" placeholder="Enter last name" key={4} defaultValue={lastName} onChange={handleLastNameChange} />
                     <Form.Label key={uuidv4()}>Age</Form.Label>
-                    <Form.Control type="text" placeholder="Enter last name" key={5} defaultValue={age} onChange={handleAgeChange} />
+                    <Form.Control type="text" placeholder="Enter age" key={5} defaultValue={age} onChange={handleAgeChange} />
+                    <Form.Label key={uuidv4()}>Gender</Form.Label>
+                    <Form.Control type="text" placeholder="Enter gender" key={11} defaultValue={gender} onChange={handleGenderChange} />
                     <Form.Label key={uuidv4()}>Phone</Form.Label>
                     <Form.Control type="text" placeholder="Enter phone" key={6} defaultValue={phone} onChange={handlePhoneChange} />
                     <Form.Label key={uuidv4()}>City</Form.Label>
@@ -131,6 +150,8 @@ const Profile: React.FC = () => {
                     <Form.Control type="email" placeholder="Enter country" key={8} defaultValue={country} onChange={handleCountryChange} />
                     <Form.Label key={uuidv4()}>Country of Origin</Form.Label>
                     <Form.Control type="email" placeholder="Enter country of Origin" key={9} defaultValue={countryFrom} onChange={handleCountrFromChange} />
+                    <Form.Label key={uuidv4()}>College / University</Form.Label>
+                    <Form.Control type="email" placeholder="Enter College / University" key={10} defaultValue={school} onChange={handleSchoolChange} />
                 </Form.Group>
                 <Button variant="primary" type="submit" key={10} onClick={buttonTest}>
                     Update
