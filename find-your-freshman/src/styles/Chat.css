@@ -2,7 +2,7 @@
     position: relative;
     background-color: #fff;
     color: #000;
-    min-height: calc(78vh - var(--mantine-header-height, 0px)) !important;
+    min-height: calc(76vh - var(--mantine-header-height, 0px)) !important;
     padding-bottom: 50px;
 }
 
@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    height: calc(78vh - var(--mantine-header-height, 0px)) !important;
+    height: calc(76vh - var(--mantine-header-height, 0px)) !important;
 }
 
 .smn-msg {

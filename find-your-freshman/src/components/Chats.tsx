@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { createStyles, Navbar as MantineNavBar, Avatar, TextInput, UnstyledButton, Badge } from '@mantine/core'
-import { Login, Search, Selector } from 'tabler-icons-react'
+import { Search, Selector } from 'tabler-icons-react'
 
 import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore'
 import { UserButton } from './UserButton'

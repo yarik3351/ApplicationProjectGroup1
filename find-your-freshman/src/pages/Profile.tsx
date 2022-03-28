@@ -76,7 +76,7 @@ const Profile: React.FC = () => {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const getData = async () => {
-                    const docRef = doc(db, 'profiles', auth!.currentUser!.uid)
+                    const docRef = doc(db, 'profiles', user.uid)
                     const docSnap = await getDoc(docRef)
 
                     if (docSnap.exists()) {
@@ -104,7 +104,7 @@ const Profile: React.FC = () => {
                 setLastName(lName)
             }
         })
-    }, [])
+    })
 
     const buttonTest = (e: any) => {
         e.preventDefault()
@@ -159,7 +159,7 @@ const Profile: React.FC = () => {
             .catch((error) => {
                 const errorCode = error.code
                 const errorMessage = error.message
-                // ..
+                console.error(errorCode, errorMessage)
             })
     }
 
