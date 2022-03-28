@@ -165,61 +165,61 @@ const Profile: React.FC = () => {
 
     return (
         <div className={classes.main}>
-            <Center key={uuidv4()}>
-                <Avatar key={uuidv4()} radius="xl" size="xl" src={avatar}></Avatar>
+            <Center key={1}>
+                <Avatar key={2} radius="xl" size="xl" src={avatar}></Avatar>
             </Center>
-            <Form key={uuidv4()}>
-                <Form.Group className={classes.wrapper} controlId="formBasicEmail" key={uuidv4()}>
-                    <Form.Label className={classes.label} key={uuidv4()}>
+            <Form key={3}>
+                <Form.Group className={classes.wrapper} controlId="formBasicEmail" key={4}>
+                    <Form.Label className={classes.label} key={5}>
                         First Name
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Enter first name" key={uuidv4()} value={firstName} onChange={handleFirstNameChange} />
-                    <Form.Label className={classes.label} key={uuidv4()}>
+                    <Form.Control type="text" placeholder="Enter first name" key={6} value={firstName} onChange={handleFirstNameChange} />
+                    <Form.Label className={classes.label} key={7}>
                         Last Name
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Enter last name" key={uuidv4()} defaultValue={lastName} onChange={handleLastNameChange} />
-                    <Form.Label className={classes.label} key={uuidv4()}>
+                    <Form.Control type="text" placeholder="Enter last name" key={8} defaultValue={lastName} onChange={handleLastNameChange} />
+                    <Form.Label className={classes.label} key={9}>
                         Email
                     </Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" key={uuidv4()} defaultValue={email} onChange={handleEmailChange} />
-                    <Form.Label className={classes.label} key={uuidv4()}>
+                    <Form.Control type="email" placeholder="Enter email" key={10} defaultValue={email} onChange={handleEmailChange} />
+                    <Form.Label className={classes.label} key={11}>
                         Age
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Enter age" key={uuidv4()} defaultValue={age} onChange={handleAgeChange} />
-                    <Form.Label className={classes.label} key={uuidv4()}>
+                    <Form.Control type="text" placeholder="Enter age" key={12} defaultValue={age} onChange={handleAgeChange} />
+                    <Form.Label className={classes.label} key={13}>
                         Gender
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Enter gender" key={uuidv4()} defaultValue={gender} onChange={handleGenderChange} />
-                    <Form.Label className={classes.label} key={uuidv4()}>
+                    <Form.Control type="text" placeholder="Enter gender" key={14} defaultValue={gender} onChange={handleGenderChange} />
+                    <Form.Label className={classes.label} key={15}>
                         Phone
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Enter phone" key={uuidv4()} defaultValue={phone} onChange={handlePhoneChange} />
-                    <Form.Label className={classes.label} key={uuidv4()}>
+                    <Form.Control type="text" placeholder="Enter phone" key={16} defaultValue={phone} onChange={handlePhoneChange} />
+                    <Form.Label className={classes.label} key={17}>
                         City
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Enter city" key={uuidv4()} defaultValue={city} onChange={handleCityChange} />
-                    <Form.Label className={classes.label} key={uuidv4()}>
+                    <Form.Control type="text" placeholder="Enter city" key={18} defaultValue={city} onChange={handleCityChange} />
+                    <Form.Label className={classes.label} key={19}>
                         Country
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Enter country" key={uuidv4()} defaultValue={country} onChange={handleCountryChange} />
-                    <Form.Label className={classes.label} key={uuidv4()}>
+                    <Form.Control type="text" placeholder="Enter country" key={20} defaultValue={country} onChange={handleCountryChange} />
+                    <Form.Label className={classes.label} key={21}>
                         Country of Origin
                     </Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="Enter country of Origin"
-                        key={uuidv4()}
+                        key={22}
                         defaultValue={countryFrom}
                         onChange={handleCountrFromChange}
                     />
-                    <Form.Label className={classes.label} key={uuidv4()}>
+                    <Form.Label className={classes.label} key={23}>
                         College / University
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Enter College / University" key={uuidv4()} defaultValue={school} onChange={handleSchoolChange} />
-                    <Button className={classes.button} variant="primary" type="submit" key={uuidv4()} onClick={buttonTest}>
+                    <Form.Control type="text" placeholder="Enter College / University" key={24} defaultValue={school} onChange={handleSchoolChange} />
+                    <Button className={classes.button} variant="primary" type="submit" key={25} onClick={buttonTest}>
                         Update
                     </Button>
-                    <Button className={classes.button} variant="warning" type="button" key={uuidv4()} onClick={btnReset}>
+                    <Button className={classes.button} variant="warning" type="button" key={26} onClick={btnReset}>
                         Reset
                     </Button>
                 </Form.Group>
