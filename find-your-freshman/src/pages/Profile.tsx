@@ -39,9 +39,11 @@ const Profile: React.FC = () => {
     const [email, setEmail] = useState<any>('')
 
     const handleFirstNameChange = (e: any) => {
+        //console.log(e.target.value)
         setFirstName(e.target.value)
     }
     const handleLastNameChange = (e: any) => {
+        //console.log(e.target.value)
         setLastName(e.target.value)
     }
     const handleEmailChange = (e: any) => {
@@ -76,7 +78,7 @@ const Profile: React.FC = () => {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const getData = async () => {
-                    const docRef = doc(db, 'profiles', user.uid)
+                    const docRef = doc(db, 'profiles', auth!.currentUser!.uid)
                     const docSnap = await getDoc(docRef)
 
                     if (docSnap.exists()) {
@@ -96,7 +98,7 @@ const Profile: React.FC = () => {
                         console.log('data for user not found')
                     }
                 }
-                getData()
+                getData();
                 const fName = user.displayName?.split(' ')[0]
                 const lName = user.displayName?.split(' ')[1]
                 setEmail(user.email)
@@ -104,7 +106,7 @@ const Profile: React.FC = () => {
                 setLastName(lName)
             }
         })
-    })
+    }, [])
 
     const buttonTest = (e: any) => {
         e.preventDefault()
@@ -113,7 +115,7 @@ const Profile: React.FC = () => {
             if (user) {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
-                const uid = user.uid
+                const uid = user.uid;
                 // ...
                 // Change display name
                 updateProfile(user, {
@@ -125,22 +127,18 @@ const Profile: React.FC = () => {
                     console.log('Email updated in Auth')
                 })
                 // Update
-                await setDoc(
-                    doc(db, 'profiles', uid),
-                    {
-                        first_name: firstName,
-                        last_name: lastName,
-                        email: email,
-                        age: age,
-                        phone: phone,
-                        city: city,
-                        country: country,
-                        country_from: countryFrom,
-                        gender: gender,
-                        school: school
-                    },
-                    { merge: true }
-                )
+                await setDoc(doc(db, 'profiles', uid), {
+                    first_name: firstName,
+                    last_name: lastName,
+                    email: email,
+                    age: age,
+                    phone: phone,
+                    city: city,
+                    country: country,
+                    country_from: countryFrom,
+                    gender: gender,
+                    school: school
+                }, { merge: true })
             } else {
                 // User is signed out
                 // ...
@@ -173,7 +171,7 @@ const Profile: React.FC = () => {
                     <Form.Label className={classes.label} key={5}>
                         First Name
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Enter first name" key={6} value={firstName} onChange={handleFirstNameChange} />
+                    <Form.Control type="text" placeholder="Enter first name" key={6} defaultValue={firstName} onChange={handleFirstNameChange} />
                     <Form.Label className={classes.label} key={7}>
                         Last Name
                     </Form.Label>
