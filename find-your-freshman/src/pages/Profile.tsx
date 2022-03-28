@@ -25,6 +25,7 @@ const Profile: React.FC = () => {
     const [countryFrom, setCountryFrom] = useState<any>('')
     const [gender, setGender] = useState<any>('')
     const [school, setSchool] = useState<any>('')
+    const [email, setEmail] = useState<any>('')
 
     const handleFirstNameChange = (e: any) => {
         setFirstName(e.target.value)
@@ -53,6 +54,9 @@ const Profile: React.FC = () => {
     }
     const handleSchoolChange = (e: any) => {
         setSchool(e.target.value)
+    }
+    const handleEmail = (e: any) => {
+        setEmail(e.target.value)
     }
     const auth = FIREBASE.AUTH
     const db = getFirestore()
@@ -85,6 +89,7 @@ const Profile: React.FC = () => {
                 const fName = user.displayName?.split(' ')[0]
                 const lName = user.displayName?.split(' ')[1]
                 setFirstName(fName)
+                setEmail(user.email)
                 setLastName(lName)
             }
         })
@@ -136,20 +141,22 @@ const Profile: React.FC = () => {
                     <Form.Control type="text" placeholder="Enter first name" key={3} value={firstName} onChange={handleFirstNameChange} />
                     <Form.Label key={uuidv4()}>Last Name</Form.Label>
                     <Form.Control type="text" placeholder="Enter last name" key={4} defaultValue={lastName} onChange={handleLastNameChange} />
+                    <Form.Label key={uuidv4()}>Email</Form.Label>
+                    <Form.Control type="text" placeholder="Enter email" key={5} defaultValue={email} onChange={handleEmail} />
                     <Form.Label key={uuidv4()}>Age</Form.Label>
-                    <Form.Control type="text" placeholder="Enter age" key={5} defaultValue={age} onChange={handleAgeChange} />
+                    <Form.Control type="text" placeholder="Enter age" key={6} defaultValue={age} onChange={handleAgeChange} />
                     <Form.Label key={uuidv4()}>Gender</Form.Label>
-                    <Form.Control type="text" placeholder="Enter gender" key={11} defaultValue={gender} onChange={handleGenderChange} />
+                    <Form.Control type="text" placeholder="Enter gender" key={12} defaultValue={gender} onChange={handleGenderChange} />
                     <Form.Label key={uuidv4()}>Phone</Form.Label>
-                    <Form.Control type="text" placeholder="Enter phone" key={6} defaultValue={phone} onChange={handlePhoneChange} />
+                    <Form.Control type="text" placeholder="Enter phone" key={7} defaultValue={phone} onChange={handlePhoneChange} />
                     <Form.Label key={uuidv4()}>City</Form.Label>
-                    <Form.Control type="text" placeholder="Enter city" key={7} defaultValue={city} onChange={handleCityChange} />
+                    <Form.Control type="text" placeholder="Enter city" key={8} defaultValue={city} onChange={handleCityChange} />
                     <Form.Label key={uuidv4()}>Country</Form.Label>
-                    <Form.Control type="email" placeholder="Enter country" key={8} defaultValue={country} onChange={handleCountryChange} />
+                    <Form.Control type="email" placeholder="Enter country" key={9} defaultValue={country} onChange={handleCountryChange} />
                     <Form.Label key={uuidv4()}>Country of Origin</Form.Label>
-                    <Form.Control type="email" placeholder="Enter country of Origin" key={9} defaultValue={countryFrom} onChange={handleCountrFromChange} />
+                    <Form.Control type="email" placeholder="Enter country of Origin" key={10} defaultValue={countryFrom} onChange={handleCountrFromChange} />
                     <Form.Label key={uuidv4()}>College / University</Form.Label>
-                    <Form.Control type="email" placeholder="Enter College / University" key={10} defaultValue={school} onChange={handleSchoolChange} />
+                    <Form.Control type="email" placeholder="Enter College / University" key={11} defaultValue={school} onChange={handleSchoolChange} />
                 </Form.Group>
                 <Button variant="primary" type="submit" key={10} onClick={buttonTest}>
                     Update
