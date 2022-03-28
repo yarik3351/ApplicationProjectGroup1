@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { createStyles, Navbar as MantineNavBar, Avatar, TextInput, UnstyledButton, Badge } from '@mantine/core'
-import { Search, Selector } from 'tabler-icons-react'
+import { Login, Search, Selector } from 'tabler-icons-react'
 
 import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore'
 import { UserButton } from './UserButton'
 import { FIREBASE } from '../resources/firebase-constants'
-import { Nav } from 'react-bootstrap'
+import '../styles/Chats.css'
 import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
@@ -183,7 +183,7 @@ const Chats: React.FC = () => {
 
     return (
         <MantineNavBar key={uuidv4()} width={{ sm: 300 }} p="md" className={classes.navbar}>
-            <Nav.Link href="/profile" className="p-0" key={uuidv4()}>
+            <Link to="/profile" className="p-0" key={uuidv4()}>
                 <MantineNavBar.Section key={uuidv4()} className={classes.section}>
                     <UserButton
                         style={{ borderBottom: '1px solid rgb(222, 226, 230)' }}
@@ -194,7 +194,7 @@ const Chats: React.FC = () => {
                         icon={<Selector size={14} />}
                     />
                 </MantineNavBar.Section>
-            </Nav.Link>
+            </Link>
 
             <TextInput
                 key={uuidv4()}

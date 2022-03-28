@@ -1,0 +1,27 @@
+a,
+a:hover,
+a:focus,
+a:active {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+.mantine-b110uu {
+    height: calc(94vh - var(--mantine-header-height, 0px)) !important;
+}
